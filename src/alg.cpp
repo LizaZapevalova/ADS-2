@@ -6,58 +6,43 @@
 using namespace std;
 
 double pown(double value, uint16_t n) {
-  double result = 1.0;
-  for (int i = 0; i < n; i++){
-    result *= x;
-  }
-  return result;
+  double p = 1;
+  for ( ; n > 0; --n)
+    p *= value;
+  return p;
 }
 
 
 uint64_t fact(uint16_t n) {
-int result = 1;
-  for (int i = 1; i <= n; ++i){
-    result *= i;
-  }
-  return result;
+uint64_t r = 1;
+for (uint16_t i = 2; i <= n; i++)
+    r *= i;
+  return r;
 }
 
 double calcItem(double x, uint16_t n) {
-  double result = 0.0;
-  for (int i = 0; i < n; ++i){
-    result += power(x, i) / fact(i);
-  }
-  return result;
+return pown(x, n) / fact(n);
 }
 
 double expn(double x, uint16_t count) {
-  return calcItem(x, n);
+  double exp = 2;
+  for ( ; count > 1; count--)
+    exp += calcItem(x, count);
+  return exp;
 }
 
 double sinn(double x, uint16_t count) {
-  double result = 0.0;
-  for (int i = 0; i < n; ++i){
-    result += power(-1, i) * power(x, 2 * i + 1) / fact(2 * i + 1);
-  }
-  return result;
+  double s = x;
+  for ( ; count > 1; count--)
+    s += pown(-1, count - 1) * calcItem(x, 2 * count - 1);
+  return s;
 }
 
 double cosn(double x, uint16_t count) {
-  double result = 0.0;
-  for (int i = 0; i < n; ++i){
-    result += power(-1, i) * power(x, 2 * i) / fact(2 * i);
-  }
-  return result;
+  double s = 1;
+  for ( ; count > 1; count--)
+    s += pown(-1, count - 1) * calcItem(x, 2 * count - 2);
+  return s;
 }
 
-int main(){
-  double x = 0.5;
-  int n = 10;
-
-  cout << "e^x (approximation): " << expn(x, n) << endl;
-  cout << "sin(x) (approximation): " << sinn(x, n) << endl;
-  cout << "cos(x) (approximation): " << cosn(x, n) << endl;
-  
-  return 0;
-}
 
